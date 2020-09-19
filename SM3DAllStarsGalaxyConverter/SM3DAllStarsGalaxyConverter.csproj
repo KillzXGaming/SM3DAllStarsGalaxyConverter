@@ -58,14 +58,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BCSV.cs" />
-    <Compile Include="BCSVHashHelper.cs" />
+    <Compile Include="Files\BCSV\BCSV.cs" />
+    <Compile Include="Files\BCSV\BCSVHashHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RARC_Parser.cs" />
+    <Compile Include="Files\RARC\RARC_Parser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files\BMD\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
