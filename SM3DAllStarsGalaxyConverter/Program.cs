@@ -19,16 +19,24 @@ namespace SM3DAllStarsGalaxyConverter
                 return;
             }
 
+            if (!Directory.Exists("Output"))
+                Directory.CreateDirectory("Output");
+
             foreach (var arg in args)
             {
                 string ext = Path.GetExtension(arg);
                 if (ext == ".arc")
                     ConvertARC(arg);
                 if (ext == ".kcl")
-                    ConvertKCL(new FileStream(arg, FileMode.Create, FileAccess.Write));
+                    ConvertKCL(WriteToFile(arg));
                 if (ext == ".ba" || ext == ".bcam" || ext == ".bcsv")
-                    ConvertBCSV(new FileStream(arg, FileMode.Create, FileAccess.Write));
+                    ConvertBCSV(WriteToFile(arg));
             }
+        }
+
+        static Stream WriteToFile(string filePath) {
+            string name = Path.GetFileName(filePath);
+            return new FileStream($"Output/{name}", FileMode.Create, FileAccess.Write);
         }
 
         static void ConvertARC(string filePath)
@@ -39,9 +47,6 @@ namespace SM3DAllStarsGalaxyConverter
             rarc.IsLittleEndian = true;
             foreach (var file in rarc.Files)
                 ConvertFile(file);
-
-            if (!Directory.Exists("Output"))
-                Directory.CreateDirectory("Output");
 
             var mem = new MemoryStream();
             rarc.Save(mem);
