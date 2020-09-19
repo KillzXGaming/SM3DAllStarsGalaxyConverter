@@ -19,7 +19,16 @@ namespace SM3DAllStarsGalaxyConverter
                 return;
             }
 
-            ConvertARC(args[0]);
+            foreach (var arg in args)
+            {
+                string ext = Path.GetExtension(arg);
+                if (ext == ".arc")
+                    ConvertARC(arg);
+                if (ext == ".kcl")
+                    ConvertKCL(new FileStream(arg, FileMode.Create, FileAccess.Write));
+                if (ext == ".ba" || ext == ".bcam" || ext == ".bcsv")
+                    ConvertBCSV(new FileStream(arg, FileMode.Create, FileAccess.Write));
+            }
         }
 
         static void ConvertARC(string filePath)
