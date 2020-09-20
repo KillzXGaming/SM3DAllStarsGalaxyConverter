@@ -25,12 +25,16 @@ namespace SM3DAllStarsGalaxyConverter
             foreach (var arg in args)
             {
                 string ext = Path.GetExtension(arg);
-                if (ext == ".arc")
-                    ConvertARC(arg);
-                if (ext == ".kcl")
-                    ConvertKCL(WriteToFile(arg));
-                if (ext == ".ba" || ext == ".bcam" || ext == ".bcsv")
-                    ConvertBCSV(WriteToFile(arg));
+                switch (ext)
+                {
+                    case ".arc": ConvertARC(arg); break;
+                    case ".kcl": ConvertKCL(WriteToFile(arg)); break;
+                    case ".bdl": ConvertBMD(WriteToFile(arg)); break;
+                    case ".ba":
+                    case ".bcam":
+                    case ".bcsv":
+                        ConvertBCSV(WriteToFile(arg)); break;
+                }
             }
         }
 
@@ -56,16 +60,26 @@ namespace SM3DAllStarsGalaxyConverter
         static void ConvertFile(RARC_Parser.FileEntry file)
         {
             string ext = Path.GetExtension(file.FileName);
-            if (file.FileName.Contains("jmp") || ext == ".bcam" || ext == ".ba")
+            if (file.FileName.Contains("jmp") || ext == ".bcam" || ext == ".ba" || ext == ".bcsv")
             {
                 Console.WriteLine($"Converting BCSV {file.FileName}");
                 file.FileData = ConvertBCSV(file.FileData);
             }
-            else if (ext == ".kcl") {
+            else if (ext == ".kcl") 
                 file.FileData = ConvertKCL(file.FileData);
-            }
-            else
-                throw new Exception($"Unsupported file format! Ext: {ext} FileName: {file.FileName}");
+            else if (ext == ".bdl")
+                file.FileData = ConvertBMD(file.FileData);
+           // else
+        //        throw new Exception($"Unsupported file format! Ext: {ext} FileName: {file.FileName}");
+        }
+
+        static Stream ConvertBMD(Stream data)
+        {
+            SuperBMDLib.Model bmd = new SuperBMDLib.Model(data);
+            bmd.littleEndian = true;
+            var mem = new MemoryStream();
+            bmd.Save(mem, true);
+            return new MemoryStream(mem.ToArray());
         }
 
         static Stream ConvertBCSV(Stream data)
