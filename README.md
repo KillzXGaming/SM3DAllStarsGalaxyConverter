@@ -12,3 +12,8 @@ Files currently supported.
 - .bdl
 - .kcl
 - .bcsv
+
+## Libraries used
+
+- https://github.com/KillzXGaming/SuperBMD
+- https://github.com/KillzXGaming/KCollisionLibrary
