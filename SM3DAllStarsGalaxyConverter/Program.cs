@@ -69,8 +69,8 @@ namespace SM3DAllStarsGalaxyConverter
                 file.FileData = ConvertKCL(file.FileData);
             else if (ext == ".bdl")
                 file.FileData = ConvertBMD(file.FileData);
-           // else
-        //        throw new Exception($"Unsupported file format! Ext: {ext} FileName: {file.FileName}");
+            else
+                throw new Exception($"Unsupported file format! Ext: {ext} FileName: {file.FileName}");
         }
 
         static Stream ConvertBMD(Stream data)

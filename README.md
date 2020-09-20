@@ -9,5 +9,6 @@ SM3DAllStarsGalaxyConverter.exe filename.arc
 
 Files currently supported.
 - .arc
+- .bdl
 - .kcl
 - .bcsv
